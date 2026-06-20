@@ -2,7 +2,6 @@
 using System.Drawing;
 using System.Windows.Forms;
 using Tao.OpenGl;
-using Tao.FreeGlut;
 
 namespace Hexapod
 {
@@ -39,8 +38,6 @@ namespace Hexapod
         private void InitializeOpenGl()
         {
             uiSimpleOpenGlControl.InitializeContexts();
-            Glut.glutInit();
-            Glut.glutInitDisplayMode(Glut.GLUT_RGB | Glut.GLUT_DOUBLE | Glut.GLUT_DEPTH);
         }
 
         private void uiParameters_TextChanged(object sender, EventArgs e)
@@ -63,16 +60,18 @@ namespace Hexapod
 
         private void SetFinishDirectionCosine()
         {
-            uiStartPositionDirectionCosineXValueLabel.Text = _hexapod.StartPosition.DirectionCosineX.ToString();
-            uiStartPositionDirectionCosineYValueLabel.Text = _hexapod.StartPosition.DirectionCosineY.ToString();
-            uiStartPositionDirectionCosineZValueLabel.Text = _hexapod.StartPosition.DirectionCosineZ.ToString();
+            var start = _hexapod.Track.Positions[0];
+            uiStartPositionDirectionCosineXValueLabel.Text = start.DirectionCosineX.ToString();
+            uiStartPositionDirectionCosineYValueLabel.Text = start.DirectionCosineY.ToString();
+            uiStartPositionDirectionCosineZValueLabel.Text = start.DirectionCosineZ.ToString();
         }
 
         private void SetStartDirectionCosine()
         {
-            uiFinishPositionDirectionCosineXValueLabel.Text = _hexapod.FinishPosition.DirectionCosineX.ToString();
-            uiFinishPositionDirectionCosineYValueLabel.Text = _hexapod.FinishPosition.DirectionCosineY.ToString();
-            uiFinishPositionDirectionCosineZValueLabel.Text = _hexapod.FinishPosition.DirectionCosineZ.ToString();
+            var finish = _hexapod.Track.Positions[_hexapod.Track.Positions.Count - 1];
+            uiFinishPositionDirectionCosineXValueLabel.Text = finish.DirectionCosineX.ToString();
+            uiFinishPositionDirectionCosineYValueLabel.Text = finish.DirectionCosineY.ToString();
+            uiFinishPositionDirectionCosineZValueLabel.Text = finish.DirectionCosineZ.ToString();
         }
 
         private void UpdateTrackInformationTable()
@@ -390,6 +389,7 @@ namespace Hexapod
 
         private void uiMainPanel_SizeChanged(object sender, EventArgs e)
         {
+            if (_hexapod.Track == null) return;
             DrawHexapod(_hexapod.Track.Positions[uiTrackTrackBar.Value]);
             uiPlayButtonsPanel.Location = new System.Drawing.Point(Width/2 - uiPlayButtonsPanel.Width/2,
                                                                    uiPlayButtonsPanel.Location.Y);

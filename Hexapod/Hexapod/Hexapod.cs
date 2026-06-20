@@ -20,8 +20,8 @@ namespace Hexapod
         public Point D { get; set; }
         public Point E { get; set; }
         public Point F { get; set; }
-        public Position StartPosition { get { return Track.Positions[0]; } set { Track.Positions[0] = value; } }
-        public Position FinishPosition { get { return Track.Positions[Track.Positions.Count - 1]; } set { Track.Positions[Track.Positions.Count - 1] = value; } }
+        public Position StartPosition { get; set; }
+        public Position FinishPosition { get; set; }
         public Track Track { get; set; }
 
         public void SetParameters(MainForm mainForm)
